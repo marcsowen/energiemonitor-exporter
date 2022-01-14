@@ -6,6 +6,8 @@ import time
 import requests
 from prometheus_client import start_http_server, Gauge
 
+autarky = Gauge('autarky', "Autoarky of region")
+energy_mix = Gauge('energy_mix', 'Energy mix of region')
 num_installations = Gauge('num_installations', 'Number of installations', ['type', 'name'])
 usage = Gauge('usage', 'Current amount per time period in kWh', ['type', 'name'])
 installed_capacity = Gauge('installed_capacity', 'Total installed capacity', ['type', 'name'])
@@ -22,6 +24,9 @@ if __name__ == '__main__':
     while True:
         response = json.loads(requests.get('https://api-energiemonitor.eon.com/meter-data?regionCode=' + region_code)
                               .content.decode('UTF-8'))
+
+        autarky.set(response['autarky'])
+        energy_mix.set(response['energyMix'])
 
         for consumption in response['consumptions']['list']:
             name = consumption['name']
