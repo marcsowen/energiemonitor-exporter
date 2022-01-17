@@ -5,3 +5,7 @@ Prometheus exporter for [EnergieMonitor](https://energiemonitor.avacon.de/landkr
 List of regions can be aquired from this link: https://www.energiemonitor.de/energiemonitor-assets/preferences/regions_overrides.json
 
 The exporter will listen on localhost:3325
+
+Example dashboard in Grafana:
+
+![Grafana dashboard](energiemonitor_grafana.png)
