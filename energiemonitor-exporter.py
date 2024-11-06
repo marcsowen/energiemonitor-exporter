@@ -31,16 +31,21 @@ if __name__ == '__main__':
 
             for consumption in response['consumptions']['list']:
                 name = consumption['name']
-                (num_installations.labels(region_code=rg_id, type='consumption', name=name).set(
-                    consumption['numberOfInstallations']))
-                usage.labels(region_code=rg_id, type='consumption', name=name).set(consumption['usage'])
+                if consumption['numberOfInstallations']:
+                    num_installations.labels(region_code=rg_id, type='consumption', name=name).set(
+                        consumption['numberOfInstallations'])
+                if consumption['usage']:
+                    usage.labels(region_code=rg_id, type='consumption', name=name).set(consumption['usage'])
 
             for feed_in in response['feedIn']['list']:
                 name = feed_in['name']
-                num_installations.labels(region_code=rg_id, type='feed_in', name=name).set(
-                    feed_in['numberOfInstallations'])
-                usage.labels(region_code=rg_id, type='feed_in', name=name).set(feed_in['usage'])
-                installed_capacity.labels(region_code=rg_id, type='feed_in', name=name).set(
-                    feed_in['installedCapacity'])
+                if feed_in['numberOfInstallations']:
+                    num_installations.labels(region_code=rg_id, type='feed_in', name=name).set(
+                        feed_in['numberOfInstallations'])
+                if feed_in['usage']:
+                    usage.labels(region_code=rg_id, type='feed_in', name=name).set(feed_in['usage'])
+                if feed_in['installedCapacity']:
+                    installed_capacity.labels(region_code=rg_id, type='feed_in', name=name).set(
+                        feed_in['installedCapacity'])
 
         time.sleep(300)
